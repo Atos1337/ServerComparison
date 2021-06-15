@@ -41,8 +41,9 @@ public class BlockingServer implements Server {
         try (ServerSocket ignored = serverSocket) {
             while (isWorking) {
                 try {
+                    //System.out.println("Server started");
                     Socket socket = serverSocket.accept();
-                    System.out.println("client accepted");
+                    //System.out.println("client accepted");
                     ClientData clientData = new ClientData(socket);
                     clients.add(clientData);
                     clientData.processClient();

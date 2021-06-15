@@ -23,8 +23,8 @@ import java.util.Set;
 import java.nio.channels.SelectionKey;
 
 public class NonBlockingServer implements Server {
-    private final Selector readerSelector;
-    private final Selector writerSelector;
+    private Selector readerSelector;
+    private Selector writerSelector;
 
     private final ExecutorService workerThreadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() - 2);
     private final ExecutorService serverSocketService = Executors.newSingleThreadExecutor();
@@ -38,14 +38,11 @@ public class NonBlockingServer implements Server {
 
     private final ConcurrentHashMap.KeySetView<NonBlockingServer.ClientData, Boolean> clients = ConcurrentHashMap.newKeySet();
 
-    public NonBlockingServer() throws IOException {
-        readerSelector = Selector.open();
-        writerSelector = Selector.open();
-    }
-
     @Override
     public void start() throws IOException {
         isWorking = true;
+        readerSelector = Selector.open();
+        writerSelector = Selector.open();
         ServerSocketChannel serverSocket = ServerSocketChannel.open();
         serverSocket.socket().bind(new InetSocketAddress(Constants.PORT));
         serverSocketService.submit(new ClientAcceptor(serverSocket));
@@ -54,11 +51,11 @@ public class NonBlockingServer implements Server {
 
         while (!Thread.interrupted());
 
+        isWorking = false;
         readerService.shutdown();
         writerService.shutdown();
         readerSelector.close();
         writerSelector.close();
-        isWorking = false;
         serverSocket.close();
         workerThreadPool.shutdown();
         serverSocketService.shutdown();
@@ -71,17 +68,19 @@ public class NonBlockingServer implements Server {
             while (isWorking) {
                 try {
                     readerSelector.select();
+                    while(!newClients.isEmpty()) {
+                        ClientData clientData = newClients.poll();
+                        clientData.getSocketChannel().register(readerSelector, SelectionKey.OP_READ, clientData);
+                    }
                     Set<SelectionKey> selectionKeys = readerSelector.selectedKeys();
                     Iterator<SelectionKey> it = selectionKeys.iterator();
                     while (it.hasNext()) {
                         SelectionKey selectionKey = it.next();
-                        ClientData clientData = (ClientData) selectionKey.attachment();
-                        clientData.processRead();
-                        it.remove();
-                    }
-                    while(!newClients.isEmpty()) {
-                        ClientData clientData = newClients.poll();
-                        clientData.getSocketChannel().register(readerSelector, SelectionKey.OP_READ, clientData);
+                        if (selectionKey.isReadable()) {
+                            ClientData clientData = (ClientData) selectionKey.attachment();
+                            clientData.processRead();
+                            it.remove();
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -96,19 +95,21 @@ public class NonBlockingServer implements Server {
             while (isWorking) {
                 try {
                     writerSelector.select();
+                    while(!clientsReadyWrite.isEmpty()) {
+                        ClientData clientData = clientsReadyWrite.poll();
+                        clientData.getSocketChannel().register(writerSelector, SelectionKey.OP_WRITE, clientData);
+                    }
                     Set<SelectionKey> selectionKeys = writerSelector.selectedKeys();
                     Iterator<SelectionKey> it = selectionKeys.iterator();
                     while (it.hasNext()) {
                         SelectionKey selectionKey = it.next();
-                        ClientData clientData = (ClientData) selectionKey.attachment();
-                        if (clientData.processWrite()) {
-                            clientData.getSocketChannel().keyFor(writerSelector).cancel();
+                        if (selectionKey.isWritable()) {
+                            ClientData clientData = (ClientData) selectionKey.attachment();
+                            if (clientData.processWrite()) {
+                                clientData.getSocketChannel().keyFor(writerSelector).interestOps(0);
+                            }
+                            it.remove();
                         }
-                        it.remove();
-                    }
-                    while(!clientsReadyWrite.isEmpty()) {
-                        ClientData clientData = clientsReadyWrite.poll();
-                        clientData.getSocketChannel().register(writerSelector, SelectionKey.OP_WRITE, clientData);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -185,11 +186,10 @@ public class NonBlockingServer implements Server {
         }
 
         public boolean processWrite() throws IOException {
-            if (currentWriteBuffer == null || !currentWriteBuffer.hasRemaining()) {
+            if (currentWriteBuffer == null || currentWriteBuffer.position() == currentWriteBuffer.capacity()) {
                 currentWriteBuffer = buffersReadyToWrite.poll();
             }
             socketChannel.write(currentWriteBuffer);
-            currentWriteBuffer.compact();
             return buffersReadyToWrite.isEmpty();
         }
 
