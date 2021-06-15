@@ -8,20 +8,25 @@ public interface IntArrayOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>optional int32 size = 1;</code>
+   * <code>int32 size = 1;</code>
+   * @return The size.
    */
   int getSize();
 
   /**
    * <code>repeated int32 elem = 2;</code>
+   * @return A list containing the elem.
    */
   java.util.List<java.lang.Integer> getElemList();
   /**
    * <code>repeated int32 elem = 2;</code>
+   * @return The count of elem.
    */
   int getElemCount();
   /**
    * <code>repeated int32 elem = 2;</code>
+   * @param index The index of the element to return.
+   * @return The elem at the given index.
    */
   int getElem(int index);
 }

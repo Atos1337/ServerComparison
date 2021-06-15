@@ -21,7 +21,7 @@ public class Client implements Callable<Void> {
     @Override
     public Void call() throws Exception {
         List<Integer> data = generateArray();
-        try(Socket socket = new Socket("localhost", Constants.PORT)) {
+        try(Socket socket = new Socket(Constants.HOST, Constants.PORT)) {
             var inputStream = socket.getInputStream();
             var outputStream = socket.getOutputStream();
             Utils.writeArray(outputStream, data);

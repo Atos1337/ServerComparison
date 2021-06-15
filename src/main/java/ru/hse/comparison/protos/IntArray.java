@@ -6,30 +6,42 @@ package ru.hse.comparison.protos;
 /**
  * Protobuf type {@code comparison.IntArray}
  */
-public  final class IntArray extends
+public final class IntArray extends
     com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:comparison.IntArray)
     IntArrayOrBuilder {
+private static final long serialVersionUID = 0L;
   // Use IntArray.newBuilder() to construct.
   private IntArray(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
   private IntArray() {
-    size_ = 0;
-    elem_ = java.util.Collections.emptyList();
+    elem_ = emptyIntList();
+  }
+
+  @java.lang.Override
+  @SuppressWarnings({"unused"})
+  protected java.lang.Object newInstance(
+      UnusedPrivateParameter unused) {
+    return new IntArray();
   }
 
   @java.lang.Override
   public final com.google.protobuf.UnknownFieldSet
   getUnknownFields() {
-    return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    return this.unknownFields;
   }
   private IntArray(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     this();
+    if (extensionRegistry == null) {
+      throw new java.lang.NullPointerException();
+    }
     int mutable_bitField0_ = 0;
+    com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+        com.google.protobuf.UnknownFieldSet.newBuilder();
     try {
       boolean done = false;
       while (!done) {
@@ -38,36 +50,37 @@ public  final class IntArray extends
           case 0:
             done = true;
             break;
-          default: {
-            if (!input.skipField(tag)) {
-              done = true;
-            }
-            break;
-          }
           case 8: {
 
             size_ = input.readInt32();
             break;
           }
           case 16: {
-            if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-              elem_ = new java.util.ArrayList<java.lang.Integer>();
-              mutable_bitField0_ |= 0x00000002;
+            if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+              elem_ = newIntList();
+              mutable_bitField0_ |= 0x00000001;
             }
-            elem_.add(input.readInt32());
+            elem_.addInt(input.readInt32());
             break;
           }
           case 18: {
             int length = input.readRawVarint32();
             int limit = input.pushLimit(length);
-            if (!((mutable_bitField0_ & 0x00000002) == 0x00000002) && input.getBytesUntilLimit() > 0) {
-              elem_ = new java.util.ArrayList<java.lang.Integer>();
-              mutable_bitField0_ |= 0x00000002;
+            if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
+              elem_ = newIntList();
+              mutable_bitField0_ |= 0x00000001;
             }
             while (input.getBytesUntilLimit() > 0) {
-              elem_.add(input.readInt32());
+              elem_.addInt(input.readInt32());
             }
             input.popLimit(limit);
+            break;
+          }
+          default: {
+            if (!parseUnknownField(
+                input, unknownFields, extensionRegistry, tag)) {
+              done = true;
+            }
             break;
           }
         }
@@ -78,9 +91,10 @@ public  final class IntArray extends
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e).setUnfinishedMessage(this);
     } finally {
-      if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-        elem_ = java.util.Collections.unmodifiableList(elem_);
+      if (((mutable_bitField0_ & 0x00000001) != 0)) {
+        elem_.makeImmutable(); // C
       }
+      this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
   }
@@ -89,6 +103,7 @@ public  final class IntArray extends
     return ru.hse.comparison.protos.Message.internal_static_comparison_IntArray_descriptor;
   }
 
+  @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return ru.hse.comparison.protos.Message.internal_static_comparison_IntArray_fieldAccessorTable
@@ -96,40 +111,47 @@ public  final class IntArray extends
             ru.hse.comparison.protos.IntArray.class, ru.hse.comparison.protos.IntArray.Builder.class);
   }
 
-  private int bitField0_;
   public static final int SIZE_FIELD_NUMBER = 1;
   private int size_;
   /**
-   * <code>optional int32 size = 1;</code>
+   * <code>int32 size = 1;</code>
+   * @return The size.
    */
+  @java.lang.Override
   public int getSize() {
     return size_;
   }
 
   public static final int ELEM_FIELD_NUMBER = 2;
-  private java.util.List<java.lang.Integer> elem_;
+  private com.google.protobuf.Internal.IntList elem_;
   /**
    * <code>repeated int32 elem = 2;</code>
+   * @return A list containing the elem.
    */
+  @java.lang.Override
   public java.util.List<java.lang.Integer>
       getElemList() {
     return elem_;
   }
   /**
    * <code>repeated int32 elem = 2;</code>
+   * @return The count of elem.
    */
   public int getElemCount() {
     return elem_.size();
   }
   /**
    * <code>repeated int32 elem = 2;</code>
+   * @param index The index of the element to return.
+   * @return The elem at the given index.
    */
   public int getElem(int index) {
-    return elem_.get(index);
+    return elem_.getInt(index);
   }
   private int elemMemoizedSerializedSize = -1;
 
   private byte memoizedIsInitialized = -1;
+  @java.lang.Override
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
     if (isInitialized == 1) return true;
@@ -139,6 +161,7 @@ public  final class IntArray extends
     return true;
   }
 
+  @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
     getSerializedSize();
@@ -150,10 +173,12 @@ public  final class IntArray extends
       output.writeUInt32NoTag(elemMemoizedSerializedSize);
     }
     for (int i = 0; i < elem_.size(); i++) {
-      output.writeInt32NoTag(elem_.get(i));
+      output.writeInt32NoTag(elem_.getInt(i));
     }
+    unknownFields.writeTo(output);
   }
 
+  @java.lang.Override
   public int getSerializedSize() {
     int size = memoizedSize;
     if (size != -1) return size;
@@ -167,7 +192,7 @@ public  final class IntArray extends
       int dataSize = 0;
       for (int i = 0; i < elem_.size(); i++) {
         dataSize += com.google.protobuf.CodedOutputStream
-          .computeInt32SizeNoTag(elem_.get(i));
+          .computeInt32SizeNoTag(elem_.getInt(i));
       }
       size += dataSize;
       if (!getElemList().isEmpty()) {
@@ -177,11 +202,11 @@ public  final class IntArray extends
       }
       elemMemoizedSerializedSize = dataSize;
     }
+    size += unknownFields.getSerializedSize();
     memoizedSize = size;
     return size;
   }
 
-  private static final long serialVersionUID = 0L;
   @java.lang.Override
   public boolean equals(final java.lang.Object obj) {
     if (obj == this) {
@@ -192,12 +217,12 @@ public  final class IntArray extends
     }
     ru.hse.comparison.protos.IntArray other = (ru.hse.comparison.protos.IntArray) obj;
 
-    boolean result = true;
-    result = result && (getSize()
-        == other.getSize());
-    result = result && getElemList()
-        .equals(other.getElemList());
-    return result;
+    if (getSize()
+        != other.getSize()) return false;
+    if (!getElemList()
+        .equals(other.getElemList())) return false;
+    if (!unknownFields.equals(other.unknownFields)) return false;
+    return true;
   }
 
   @java.lang.Override
@@ -206,7 +231,7 @@ public  final class IntArray extends
       return memoizedHashCode;
     }
     int hash = 41;
-    hash = (19 * hash) + getDescriptorForType().hashCode();
+    hash = (19 * hash) + getDescriptor().hashCode();
     hash = (37 * hash) + SIZE_FIELD_NUMBER;
     hash = (53 * hash) + getSize();
     if (getElemCount() > 0) {
@@ -218,6 +243,17 @@ public  final class IntArray extends
     return hash;
   }
 
+  public static ru.hse.comparison.protos.IntArray parseFrom(
+      java.nio.ByteBuffer data)
+      throws com.google.protobuf.InvalidProtocolBufferException {
+    return PARSER.parseFrom(data);
+  }
+  public static ru.hse.comparison.protos.IntArray parseFrom(
+      java.nio.ByteBuffer data,
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      throws com.google.protobuf.InvalidProtocolBufferException {
+    return PARSER.parseFrom(data, extensionRegistry);
+  }
   public static ru.hse.comparison.protos.IntArray parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -277,6 +313,7 @@ public  final class IntArray extends
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
+  @java.lang.Override
   public Builder newBuilderForType() { return newBuilder(); }
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
@@ -284,6 +321,7 @@ public  final class IntArray extends
   public static Builder newBuilder(ru.hse.comparison.protos.IntArray prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
+  @java.lang.Override
   public Builder toBuilder() {
     return this == DEFAULT_INSTANCE
         ? new Builder() : new Builder().mergeFrom(this);
@@ -307,6 +345,7 @@ public  final class IntArray extends
       return ru.hse.comparison.protos.Message.internal_static_comparison_IntArray_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return ru.hse.comparison.protos.Message.internal_static_comparison_IntArray_fieldAccessorTable
@@ -329,24 +368,28 @@ public  final class IntArray extends
               .alwaysUseFieldBuilders) {
       }
     }
+    @java.lang.Override
     public Builder clear() {
       super.clear();
       size_ = 0;
 
-      elem_ = java.util.Collections.emptyList();
-      bitField0_ = (bitField0_ & ~0x00000002);
+      elem_ = emptyIntList();
+      bitField0_ = (bitField0_ & ~0x00000001);
       return this;
     }
 
+    @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
       return ru.hse.comparison.protos.Message.internal_static_comparison_IntArray_descriptor;
     }
 
+    @java.lang.Override
     public ru.hse.comparison.protos.IntArray getDefaultInstanceForType() {
       return ru.hse.comparison.protos.IntArray.getDefaultInstance();
     }
 
+    @java.lang.Override
     public ru.hse.comparison.protos.IntArray build() {
       ru.hse.comparison.protos.IntArray result = buildPartial();
       if (!result.isInitialized()) {
@@ -355,47 +398,53 @@ public  final class IntArray extends
       return result;
     }
 
+    @java.lang.Override
     public ru.hse.comparison.protos.IntArray buildPartial() {
       ru.hse.comparison.protos.IntArray result = new ru.hse.comparison.protos.IntArray(this);
       int from_bitField0_ = bitField0_;
-      int to_bitField0_ = 0;
       result.size_ = size_;
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        elem_ = java.util.Collections.unmodifiableList(elem_);
-        bitField0_ = (bitField0_ & ~0x00000002);
+      if (((bitField0_ & 0x00000001) != 0)) {
+        elem_.makeImmutable();
+        bitField0_ = (bitField0_ & ~0x00000001);
       }
       result.elem_ = elem_;
-      result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
     }
 
+    @java.lang.Override
     public Builder clone() {
-      return (Builder) super.clone();
+      return super.clone();
     }
+    @java.lang.Override
     public Builder setField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
-        Object value) {
-      return (Builder) super.setField(field, value);
+        java.lang.Object value) {
+      return super.setField(field, value);
     }
+    @java.lang.Override
     public Builder clearField(
         com.google.protobuf.Descriptors.FieldDescriptor field) {
-      return (Builder) super.clearField(field);
+      return super.clearField(field);
     }
+    @java.lang.Override
     public Builder clearOneof(
         com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-      return (Builder) super.clearOneof(oneof);
+      return super.clearOneof(oneof);
     }
+    @java.lang.Override
     public Builder setRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
-        int index, Object value) {
-      return (Builder) super.setRepeatedField(field, index, value);
+        int index, java.lang.Object value) {
+      return super.setRepeatedField(field, index, value);
     }
+    @java.lang.Override
     public Builder addRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
-        Object value) {
-      return (Builder) super.addRepeatedField(field, value);
+        java.lang.Object value) {
+      return super.addRepeatedField(field, value);
     }
+    @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof ru.hse.comparison.protos.IntArray) {
         return mergeFrom((ru.hse.comparison.protos.IntArray)other);
@@ -413,21 +462,24 @@ public  final class IntArray extends
       if (!other.elem_.isEmpty()) {
         if (elem_.isEmpty()) {
           elem_ = other.elem_;
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           ensureElemIsMutable();
           elem_.addAll(other.elem_);
         }
         onChanged();
       }
+      this.mergeUnknownFields(other.unknownFields);
       onChanged();
       return this;
     }
 
+    @java.lang.Override
     public final boolean isInitialized() {
       return true;
     }
 
+    @java.lang.Override
     public Builder mergeFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -449,13 +501,17 @@ public  final class IntArray extends
 
     private int size_ ;
     /**
-     * <code>optional int32 size = 1;</code>
+     * <code>int32 size = 1;</code>
+     * @return The size.
      */
+    @java.lang.Override
     public int getSize() {
       return size_;
     }
     /**
-     * <code>optional int32 size = 1;</code>
+     * <code>int32 size = 1;</code>
+     * @param value The size to set.
+     * @return This builder for chaining.
      */
     public Builder setSize(int value) {
       
@@ -464,7 +520,8 @@ public  final class IntArray extends
       return this;
     }
     /**
-     * <code>optional int32 size = 1;</code>
+     * <code>int32 size = 1;</code>
+     * @return This builder for chaining.
      */
     public Builder clearSize() {
       
@@ -473,53 +530,65 @@ public  final class IntArray extends
       return this;
     }
 
-    private java.util.List<java.lang.Integer> elem_ = java.util.Collections.emptyList();
+    private com.google.protobuf.Internal.IntList elem_ = emptyIntList();
     private void ensureElemIsMutable() {
-      if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-        elem_ = new java.util.ArrayList<java.lang.Integer>(elem_);
-        bitField0_ |= 0x00000002;
+      if (!((bitField0_ & 0x00000001) != 0)) {
+        elem_ = mutableCopy(elem_);
+        bitField0_ |= 0x00000001;
        }
     }
     /**
      * <code>repeated int32 elem = 2;</code>
+     * @return A list containing the elem.
      */
     public java.util.List<java.lang.Integer>
         getElemList() {
-      return java.util.Collections.unmodifiableList(elem_);
+      return ((bitField0_ & 0x00000001) != 0) ?
+               java.util.Collections.unmodifiableList(elem_) : elem_;
     }
     /**
      * <code>repeated int32 elem = 2;</code>
+     * @return The count of elem.
      */
     public int getElemCount() {
       return elem_.size();
     }
     /**
      * <code>repeated int32 elem = 2;</code>
+     * @param index The index of the element to return.
+     * @return The elem at the given index.
      */
     public int getElem(int index) {
-      return elem_.get(index);
+      return elem_.getInt(index);
     }
     /**
      * <code>repeated int32 elem = 2;</code>
+     * @param index The index to set the value at.
+     * @param value The elem to set.
+     * @return This builder for chaining.
      */
     public Builder setElem(
         int index, int value) {
       ensureElemIsMutable();
-      elem_.set(index, value);
+      elem_.setInt(index, value);
       onChanged();
       return this;
     }
     /**
      * <code>repeated int32 elem = 2;</code>
+     * @param value The elem to add.
+     * @return This builder for chaining.
      */
     public Builder addElem(int value) {
       ensureElemIsMutable();
-      elem_.add(value);
+      elem_.addInt(value);
       onChanged();
       return this;
     }
     /**
      * <code>repeated int32 elem = 2;</code>
+     * @param values The elem to add.
+     * @return This builder for chaining.
      */
     public Builder addAllElem(
         java.lang.Iterable<? extends java.lang.Integer> values) {
@@ -531,21 +600,24 @@ public  final class IntArray extends
     }
     /**
      * <code>repeated int32 elem = 2;</code>
+     * @return This builder for chaining.
      */
     public Builder clearElem() {
-      elem_ = java.util.Collections.emptyList();
-      bitField0_ = (bitField0_ & ~0x00000002);
+      elem_ = emptyIntList();
+      bitField0_ = (bitField0_ & ~0x00000001);
       onChanged();
       return this;
     }
+    @java.lang.Override
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
-      return this;
+      return super.setUnknownFields(unknownFields);
     }
 
+    @java.lang.Override
     public final Builder mergeUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
-      return this;
+      return super.mergeUnknownFields(unknownFields);
     }
 
 
@@ -564,11 +636,12 @@ public  final class IntArray extends
 
   private static final com.google.protobuf.Parser<IntArray>
       PARSER = new com.google.protobuf.AbstractParser<IntArray>() {
+    @java.lang.Override
     public IntArray parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-        return new IntArray(input, extensionRegistry);
+      return new IntArray(input, extensionRegistry);
     }
   };
 
@@ -581,6 +654,7 @@ public  final class IntArray extends
     return PARSER;
   }
 
+  @java.lang.Override
   public ru.hse.comparison.protos.IntArray getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }

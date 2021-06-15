@@ -132,7 +132,6 @@ public class NonBlockingServer implements Server {
                     try {
                         SocketChannel socketChannel = serverSocketChannel.accept();
                         socketChannel.configureBlocking(false);
-                        System.out.println("Client accepted");
                         ClientData clientData = new ClientData(socketChannel);
                         clients.add(clientData);
                         newClients.add(clientData);
@@ -169,7 +168,6 @@ public class NonBlockingServer implements Server {
                 currentDataBufSize += socketChannel.read(dataBuf);
                 if (currentDataBufSize == currentMessageSize) {
                     workerThreadPool.submit(new Worker(this, dataBuf));
-                    System.out.println("Task submitted");
                     dataBuf = null;
                     currentDataBufSize = 0;
                     currentMessageSize = 0;
@@ -177,7 +175,6 @@ public class NonBlockingServer implements Server {
             } else {
                 currentSizeBufSize += socketChannel.read(sizeBuf);
                 if (currentSizeBufSize == Integer.BYTES) {
-                    System.out.println("Size readed");
                     sizeBuf.flip();
                     currentMessageSize = sizeBuf.getInt();
                     sizeBuf.clear();
@@ -238,7 +235,6 @@ public class NonBlockingServer implements Server {
             clientData.addNewBuffer(result);
             clientsReadyWrite.add(clientData);
             writerSelector.wakeup();
-            System.out.println("Task completed");
         }
     }
 }
