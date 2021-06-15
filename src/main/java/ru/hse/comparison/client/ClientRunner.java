@@ -39,7 +39,7 @@ public class ClientRunner {
     public Statistics run() throws ExecutionException, InterruptedException {
         List<Future<Void>> futures = new ArrayList<>();
         for (int i = 0; i < numberClients; ++i) {
-            System.out.println("Client accepted");
+            //System.out.println("Client accepted");
             futures.add(clientPool.submit(new Client(i)));
         }
         for (Future<Void> f : futures) {
