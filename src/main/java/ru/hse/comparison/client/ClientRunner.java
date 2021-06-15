@@ -71,7 +71,7 @@ public class ClientRunner {
                         if (!anyFinished) {
                             statistics.add(System.currentTimeMillis() - sendingTime[id][finalI]);
                         }
-                        checkData(data, result);
+                        //checkData(data, result);
                         return null;
                     }));
                     Thread.sleep(deltaSending);
