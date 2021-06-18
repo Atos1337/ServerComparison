@@ -10,8 +10,8 @@ public class Statistics {
     }
 
     public long average() {
-        System.out.println(sumTime);
-        System.out.println(numberRequests);
+        //System.out.println(sumTime);
+        //System.out.println(numberRequests);
         return sumTime / numberRequests;
     }
 }
